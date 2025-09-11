@@ -1,0 +1,178 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e1b4b, #701a75);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  transition: background 0.2s;
+}
+
+.yes {
+  background: #10b981;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+}
+
+.yes:hover {
+  background: #059669;
+}
+
+.no {
+  background: #ef4444;
+  top: 50%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+}
+
+.no:hover {
+  background: #dc2626;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: none;
+}
+
+.overlay.active {
+  display: flex;
+}
+
+.overlay h2 {
+  margin-bottom: 10px;
+}
+
+.overlay button {
+  padding: 8px 16px;
+  border: none;
+  background: #1f2937;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.overlay button:hover {
+  background: #111827;
+}
+
+#description {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #d1d5db;
+}
+#countdown {
+  font-weight: bold;
+  color: #facc15;
+}
+
+
+
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const container = document.getElementById("gameContainer");
+const overlay = document.getElementById("overlay");
+const closeOverlay = document.getElementById("closeOverlay");
+const countdownEl = document.getElementById("countdown");
+
+let countdown = 15;
+let timer;
+
+// Function to show Yes overlay
+function chooseYes() {
+  overlay.classList.add("active");
+  clearInterval(timer); // stop countdown
+}
+
+// Randomize No button position
+function randomPosition() {
+  const containerRect = container.getBoundingClientRect();
+  const btnRect = noBtn.getBoundingClientRect();
+
+  const maxX = containerRect.width - btnRect.width;
+  const maxY = containerRect.height - btnRect.height;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  noBtn.style.left = `${x}px`;
+  noBtn.style.top = `${y}px`;
+}
+
+// Move No button when mouse gets close
+container.addEventListener("mousemove", (e) => {
+  const btnRect = noBtn.getBoundingClientRect();
+  const distance = Math.hypot(
+    e.clientX - (btnRect.left + btnRect.width / 2),
+    e.clientY - (btnRect.top + btnRect.height / 2)
+  );
+
+  if (distance < 100) {
+    randomPosition();
+  }
+});
+
+// No button click → just move
+noBtn.addEventListener("click", randomPosition);
+
+// Yes button click → overlay
+yesBtn.addEventListener("click", chooseYes);
+
+closeOverlay.addEventListener("click", () => {
+  overlay.classList.remove("active");
+});
+
+// Start countdown
+function startCountdown() {
+  timer = setInterval(() => {
+    countdown--;
+    countdownEl.textContent = countdown;
+
+    if (countdown <= 0) {
+      chooseYes(); // auto choose Yes
+    }
+  }, 1000);
+}
+
+// Run countdown on page load
+startCountdown();

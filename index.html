@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <title>Yes or No Game</title>
+  </head>
+  <body>
+    <div class="container" id="gameContainer">
+      <h1>Game tayo: Yes or No?</h1>
+      <p id="description">
+        If you don’t answer within <span id="countdown">15</span> seconds, it
+        will automatically choose <strong>Yes</strong>.
+      </p>
+      <button class="btn yes" id="yesBtn">Yes</button>
+      <button class="btn no" id="noBtn">No</button>
+
+      <div class="overlay" id="overlay">
+        <h2>Yay! 🎉</h2>
+        <p>Pinili mo ang <strong>Yes</strong>!</p>
+        <button id="closeOverlay">Close</button>
+      </div>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
