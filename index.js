@@ -5,7 +5,7 @@ const overlay = document.getElementById("overlay");
 const closeOverlay = document.getElementById("closeOverlay");
 const countdownEl = document.getElementById("countdown");
 
-let countdown = 10;
+let countdown = 20;
 let timer;
 
 // Function to show Yes overlay
@@ -66,4 +66,5 @@ function startCountdown() {
 
 // Run countdown on page load
 startCountdown();
+
 
